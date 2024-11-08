@@ -15,11 +15,7 @@ enum class TestedGradleVersion(val version: GradleVersion) {
 
 enum class TestedKotlinVersion(val version: KotlinToolingVersion) {
     KT_2_0(KotlinToolingVersion("2.0.21")),
-    KT_2_1(KotlinToolingVersion("2.1.0-RC")),
-    KT_2_0_FIREWORK(
-        KotlinToolingVersion(System.getProperty("firework.version") ?: error("Missing 'firework.version'"))
-    ),
-    ;
+    KT_2_1(KotlinToolingVersion("2.1.255-SNAPSHOT")), ;
 
     override fun toString(): String {
         return version.toString()

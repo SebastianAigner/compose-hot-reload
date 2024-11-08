@@ -4,6 +4,12 @@ pluginManagement {
     }
 
     repositories {
+        mavenLocal {
+            mavenContent {
+                includeGroupByRegex("org.jetbrains.kotlin.*")
+            }
+        }
+
         maven(file("../..//build/repo"))
         maven("https://repo.sellmair.io")
         mavenCentral()
@@ -11,14 +17,20 @@ pluginManagement {
     }
 
     plugins {
-        kotlin("multiplatform") version "2.0.21-firework.28"
-        kotlin("plugin.compose") version "2.0.21-firework.28"
+        kotlin("multiplatform") version "2.1.255-SNAPSHOT"
+        kotlin("plugin.compose") version "2.1.255-SNAPSHOT"
         id("org.jetbrains.compose") version "1.7.1"
     }
 }
 
 dependencyResolutionManagement {
     repositories {
+        mavenLocal {
+            mavenContent {
+                includeGroupByRegex("org.jetbrains.kotlin.*")
+            }
+        }
+
         maven(file("../..//build/repo"))
         maven("https://repo.sellmair.io")
         mavenCentral()
