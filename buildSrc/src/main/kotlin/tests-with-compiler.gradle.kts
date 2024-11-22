@@ -40,7 +40,7 @@ dependencies {
     testCompilerDependencies(ComposePlugin.Dependencies(project).desktop.currentOs)
     testComposeCompiler(
         kotlin("compose-compiler-plugin-embeddable",
-            project.versionCatalogs.named("deps").findVersion("firework").get().requiredVersion))
+            project.versionCatalogs.named("deps").findVersion("kotlin").get().requiredVersion))
 }
 
 tasks.withType<Test>().configureEach {

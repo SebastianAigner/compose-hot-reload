@@ -178,7 +178,18 @@ private class ReloadKeyMethodVisitor(
         val parentComposeGroupKey: ComposeGroupKey?,
         val composeGroupKey: ComposeGroupKey,
     ) {
+        private var internalStackSize = 0
         private val crc: CRC32 = CRC32()
+
+        fun pushGroup() {
+            internalStackSize++
+        }
+
+        fun popGroup(): Boolean {
+            if (internalStackSize == 0) return false
+            internalStackSize--
+            return true
+        }
 
         fun pushHashIfNecessary(value: Any?) {
             if (value == null) return
@@ -201,6 +212,30 @@ private class ReloadKeyMethodVisitor(
         }
     }
 
+    fun pushGroup(key: ComposeGroupKey) {
+        val tail = stack.lastOrNull()
+
+        /* We're currently building this group, so we're just tracking this 'startGroup' call */
+        if (tail?.composeGroupKey == key) {
+            tail.pushGroup()
+            return
+        }
+
+        stack += ComposeGroupRuntimeInfoBuilder(
+            parentComposeGroupKey = tail?.composeGroupKey,
+            composeGroupKey = key,
+        )
+    }
+
+    fun popGroup(): ComposeGroupRuntimeInfoBuilder? {
+        val tail = stack.lastOrNull() ?: return null
+        /* We popped a startGroup call which is nested in the same group */
+        if (tail.popGroup()) return null
+
+        /* Now actually pop the group. Finished! */
+        return stack.removeLastOrNull()
+    }
+
     override fun visitLdcInsn(value: Any?) {
         if (value is Int) lastIntValue = value
         stack.lastOrNull()?.pushHashIfNecessary(value)
@@ -218,25 +253,18 @@ private class ReloadKeyMethodVisitor(
             pushHashIfNecessary(isInterface)
         }
 
-
         if (owner == composerClazzId) {
             if (name == startRestartGroupMethodName) {
-                stack += ComposeGroupRuntimeInfoBuilder(
-                    parentComposeGroupKey = stack.lastOrNull()?.composeGroupKey,
-                    composeGroupKey = ComposeGroupKey(lastIntValue)
-                )
+                pushGroup(ComposeGroupKey(lastIntValue))
             }
 
             if (name == startReplaceGroupMethodName) {
-                stack += ComposeGroupRuntimeInfoBuilder(
-                    parentComposeGroupKey = stack.lastOrNull()?.composeGroupKey,
-                    composeGroupKey = ComposeGroupKey(lastIntValue)
-                )
+                pushGroup(ComposeGroupKey(lastIntValue))
             }
 
             if (name == endReplaceGroupMethodName || name == endRestartGroupMethodName) {
-                val element = stack.removeLastOrNull() ?: return
-                groups[element.composeGroupKey] = element.createGroupRuntimeInfo()
+                val popped = popGroup() ?: return
+                groups[popped.composeGroupKey] = popped.createGroupRuntimeInfo()
             }
         }
     }
