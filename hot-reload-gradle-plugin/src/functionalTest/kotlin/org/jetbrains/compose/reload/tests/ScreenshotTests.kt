@@ -383,4 +383,48 @@ class ScreenshotTests {
         fixture.replaceSourceCodeAndReload("spacedBy(6.dp)", "spacedBy(32.dp)")
         fixture.checkScreenshot("1-larger-spacedBy")
     }
+
+    @HotReloadTest
+    @DefaultSettingsGradleKts
+    @DefaultBuildGradleKts
+    @TestOnlyLatestVersions
+    @TestOnlyKmp
+    fun `test - change in canvas draw coordinates`(fixture: HotReloadTestFixture) = fixture.runTest {
+        fixture initialSourceCode """
+            import androidx.compose.foundation.Canvas
+            import androidx.compose.foundation.layout.Box
+            import androidx.compose.foundation.layout.fillMaxSize
+            import androidx.compose.foundation.layout.size
+            import androidx.compose.foundation.progressSemantics
+            import androidx.compose.runtime.Composable
+            import androidx.compose.ui.Alignment
+            import androidx.compose.ui.Modifier
+            import androidx.compose.ui.geometry.Offset
+            import androidx.compose.ui.graphics.Color
+            import androidx.compose.ui.unit.dp
+            import org.jetbrains.compose.reload.underTest.*
+              
+            fun main() = underTestApplication {
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                    Canvas(
+                       Modifier
+                       .progressSemantics()
+                       .size(200.dp, 200.dp)
+                    ) {
+                        drawLine(
+                            color = Color.Black,
+                            Offset(0f, 0f),
+                            Offset(50f, 0f),
+                            20f,
+                        )
+                   }
+               }
+            }
+         """.trimIndent()
+
+        fixture.checkScreenshot("0-before")
+
+        fixture.replaceSourceCodeAndReload("Offset(50f, 0f)", "Offset(200f, 0f)")
+        fixture.checkScreenshot("1-after")
+    }
 }
