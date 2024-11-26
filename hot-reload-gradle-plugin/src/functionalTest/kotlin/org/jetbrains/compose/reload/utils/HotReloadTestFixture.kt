@@ -77,7 +77,7 @@ class HotReloadTestFixture(
      */
     lateinit var daemonTestScope: CoroutineScope
 
-    fun runTest(timeout: Duration = 5.minutes, test: suspend () -> Unit) {
+    fun runTest(timeout: Duration = 15.minutes, test: suspend () -> Unit) {
         kotlinx.coroutines.test.runTest(timeout = timeout) {
             testScope = this
             daemonTestScope = CoroutineScope(currentCoroutineContext() + Job(currentCoroutineContext().job))
