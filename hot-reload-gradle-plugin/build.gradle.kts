@@ -13,10 +13,19 @@ run {
     val functionalTest = kotlin.target.compilations.create("functionalTest")
     functionalTest.associateWith(main)
 
-    val functionalTestTask = tasks.register<Test>("functionalTest") {
+    val functionalTestWarmup by tasks.registering(Test::class) {
         testClassesDirs = functionalTest.output.classesDirs
         classpath = functionalTest.output.allOutputs + functionalTest.runtimeDependencyFiles
         systemProperty("firework.version", deps.versions.firework.get())
+        useJUnitPlatform { includeTags("Warmup") }
+    }
+
+    val functionalTestTask = tasks.register<Test>("functionalTest") {
+        dependsOn(functionalTestWarmup)
+        testClassesDirs = functionalTest.output.classesDirs
+        classpath = functionalTest.output.allOutputs + functionalTest.runtimeDependencyFiles
+        systemProperty("firework.version", deps.versions.firework.get())
+        useJUnitPlatform { excludeTags("Warmup") }
     }
 
     tasks.check.configure {
