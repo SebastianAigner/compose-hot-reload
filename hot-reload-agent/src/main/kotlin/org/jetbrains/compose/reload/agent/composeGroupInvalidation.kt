@@ -1,44 +1,15 @@
 package org.jetbrains.compose.reload.agent
 
-import org.jetbrains.compose.reload.agent.analysis.ComposeGroupKey
 import org.jetbrains.compose.reload.agent.analysis.RuntimeInfo
 import org.jetbrains.compose.reload.agent.analysis.plus
 import org.jetbrains.compose.reload.agent.analysis.resolveInvalidationKey
 import org.jetbrains.compose.reload.agent.analysis.update
-import org.objectweb.asm.*
 import java.lang.instrument.ClassFileTransformer
 import java.lang.instrument.Instrumentation
 import java.security.ProtectionDomain
 import java.util.concurrent.atomic.AtomicReference
 
 private val logger = createLogger()
-
-
-/**
- * The runtime 'group invalidation key'. This value is calculated purely at runtime.
- * If this key changes after reloading the class, then we know that the group requires invalidation.
- */
-@JvmInline
-internal value class ComposeGroupInvalidationKey(val key: Int)
-
-/**
- * Runtime information for a given Compose group:
- * @param callSiteMethodFqn: The fqn of the callsite function.
- * ```kotlin
- * // App.kt
- * package foo
- * @Composable fun Bar() {
- *     startRestartGroup(1902) // <- callSiteMethodFqn = foo.AppKt.Bar
- * }
- * ```
- *
- * @param invalidationKey: See [ComposeGroupInvalidationKey]
- */
-internal data class ComposeGroupRuntimeInfo(
-    val callSiteMethodFqn: String,
-    val parentComposeGroupKey: ComposeGroupKey?,
-    val invalidationKey: ComposeGroupInvalidationKey,
-)
 
 private val runtimeInfo = AtomicReference<RuntimeInfo?>(null)
 
@@ -90,7 +61,7 @@ internal fun startComposeGroupInvalidationTransformation(instrumentation: Instru
             if (parentInvalidations.isNotEmpty()) {
                 logger.orchestration("Invalidating parent groups '${parentInvalidations.joinToString(", ")}'")
                 parentInvalidations.forEach { parentGroup ->
-                  //  invalidateGroupsWithKey(parentGroup)
+                    invalidateGroupsWithKey(parentGroup)
                 }
             }
         }
@@ -112,7 +83,14 @@ internal object ComposeGroupInvalidationKeyTransformer : ClassFileTransformer {
         protectionDomain: ProtectionDomain?, classfileBuffer: ByteArray
     ): ByteArray? {
         try {
-            val classInfo = RuntimeInfo(classfileBuffer)
+            val classInfo = RuntimeInfo(classfileBuffer) ?: return classfileBuffer
+
+            if (classBeingRedefined == null) {
+                logger.debug("Parsed 'RuntimeInfo' for '$className'")
+            } else {
+                logger.debug("Parsed 'RuntimeInfo' for '$className' (redefined)")
+            }
+
             /* If we're redefining a class, then we want to add this to 'pending' */
             (if (classBeingRedefined == null) runtimeInfo else runtimeInfoRedefinitions).updateAndGet { runtimeInfo ->
                 runtimeInfo + classInfo

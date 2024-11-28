@@ -1,6 +1,5 @@
 package org.jetbrains.compose.reload.agent.analysis
 
-import org.jetbrains.compose.reload.agent.analysis.ComposeGroupKey
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.MethodNode
 import java.util.zip.CRC32
@@ -20,9 +19,11 @@ internal class RuntimeScopeAnalysisContext(
         when (value) {
             is Boolean -> crc.update(if (value) 1 else 0)
             is String -> crc.update(value.toByteArray())
-            is Int -> crc.update(value)
             is Byte -> crc.update(value.toInt())
-            is Float -> crc.update(value.toRawBits())
+            is Int -> crc.updateInt(value)
+            is Long -> crc.updateLong(value)
+            is Float -> crc.updateFloat(value)
+            is Double -> crc.updateDouble(value)
             else -> crc.update(value.toString().toByteArray())
         }
     }
@@ -35,7 +36,10 @@ internal class RuntimeScopeAnalysisContext(
         dependencies.add(methodId)
     }
 
-    fun hash(): RuntimeScopeHash = RuntimeScopeHash(crc.value)
+    fun hash(): RuntimeScopeHash  {
+        return RuntimeScopeHash(crc.value)
+    }
+
     fun children(): List<RuntimeScopeAnalysisContext> = children.toList()
     fun dependencies(): List<MethodId> = dependencies.toList()
 }

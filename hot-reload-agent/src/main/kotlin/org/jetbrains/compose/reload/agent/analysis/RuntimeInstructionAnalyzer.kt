@@ -5,7 +5,6 @@ import org.objectweb.asm.tree.AbstractInsnNode
 internal fun interface RuntimeInstructionAnalyzer {
     fun analyze(
         context: RuntimeMethodAnalysisContext,
-        instructionIndex: Int,
         instructionNode: AbstractInsnNode
     )
 
@@ -24,9 +23,8 @@ private class CompositeRuntimeInstructionAnalyzer(
 
     override fun analyze(
         context: RuntimeMethodAnalysisContext,
-        instructionIndex: Int,
         instructionNode: AbstractInsnNode
     ) {
-        children.forEach { it.analyze(context, instructionIndex, instructionNode) }
+        children.forEach { it.analyze(context, instructionNode) }
     }
 }

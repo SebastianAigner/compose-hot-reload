@@ -11,9 +11,7 @@ private const val metafactoryMethodName = "metafactory"
 
 internal object RuntimeScopeMethodDependencyAnalyzer : RuntimeInstructionAnalyzer {
     override fun analyze(
-        context: RuntimeMethodAnalysisContext,
-        instructionIndex: Int,
-        instructionNode: AbstractInsnNode
+        context: RuntimeMethodAnalysisContext, instructionNode: AbstractInsnNode
     ) {
         val scope = context.scope ?: return
 
@@ -36,7 +34,7 @@ internal object RuntimeScopeMethodDependencyAnalyzer : RuntimeInstructionAnalyze
             instructionNode.bsm.owner == lambdaMetaFactoryClassId &&
             instructionNode.bsm.name == metafactoryMethodName
         ) {
-            val handle = instructionNode.bsmArgs[1] as? Handle ?: return
+            val handle = instructionNode.bsmArgs.getOrNull(1) as? Handle ?: return
             scope.attachDependency(
                 MethodId(
                     className = handle.owner,

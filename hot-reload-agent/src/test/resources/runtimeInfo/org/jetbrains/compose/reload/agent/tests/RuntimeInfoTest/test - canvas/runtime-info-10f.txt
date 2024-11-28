@@ -37,54 +37,33 @@ FooKt {
     App {
         desc: (Landroidx/compose/runtime/Composer;I)V
         key: 857161579
-        codeHash: 3950796824
+        codeHash: 2031969285
         dependencies: [
-            MethodId(className=FooKt, methodName=App$lambda$2, methodDescriptor=(ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;)
+            FooKt.App$lambda$3 (ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;
         ]
     
         RestartGroup {
             key: 857161579
-            codeHash: 2078912904
-            dependencies: []
+            codeHash: 1254337785
+            dependencies: [
+                FooKt.App$lambda$2$lambda$1$lambda$0 (Landroidx/compose/ui/graphics/drawscope/DrawScope;)Lkotlin/Unit;
+            ]
         }
     }
     
-    App$lambda$2 {
+    App$lambda$2$lambda$1$lambda$0 {
+        desc: (Landroidx/compose/ui/graphics/drawscope/DrawScope;)Lkotlin/Unit;
+        key: null
+        codeHash: 3684579625
+        dependencies: []
+    }
+    
+    App$lambda$3 {
         desc: (ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;
         key: null
-        codeHash: 2122128582
+        codeHash: 186677020
         dependencies: [
-            MethodId(className=FooKt, methodName=App, methodDescriptor=(Landroidx/compose/runtime/Composer;I)V)
+            FooKt.App (Landroidx/compose/runtime/Composer;I)V
         ]
-    }
-}
-
-FooKt$App$1$1$1 {
-    <init> {
-        desc: ()V
-        key: null
-        codeHash: 3843986898
-        dependencies: []
-    }
-    
-    invoke {
-        desc: (Landroidx/compose/ui/graphics/drawscope/DrawScope;)V
-        key: 857161579
-        codeHash: 2228359529
-        dependencies: []
-    }
-    
-    invoke {
-        desc: (Ljava/lang/Object;)Ljava/lang/Object;
-        key: null
-        codeHash: 674818272
-        dependencies: []
-    }
-    
-    <clinit> {
-        desc: ()V
-        key: null
-        codeHash: 3192544465
-        dependencies: []
     }
 }

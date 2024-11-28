@@ -59,20 +59,22 @@ internal enum class RuntimeScopeType {
     Method, RestartGroup, ReplaceGroup, SourceInformationMarker,
 }
 
-internal fun RuntimeInfo(bytecode: ByteArray): RuntimeInfo {
+internal fun RuntimeInfo(bytecode: ByteArray): RuntimeInfo? {
     val reader = ClassReader(bytecode)
     val node = ClassNode(ASM9)
     reader.accept(node, 0)
 
-    return RuntimeInfo(node) ?: RuntimeInfo.EMPTY
+    return RuntimeInfo(node)
 }
 
 internal fun RuntimeInfo(classNode: ClassNode): RuntimeInfo? {
     if (classNode.name.startsWith("java/") ||
+        classNode.name.startsWith("javax/") ||
+        classNode.name.startsWith("jdk/") ||
+        classNode.name.startsWith("sun/") ||
         classNode.name.startsWith("kotlin/") ||
         classNode.name.startsWith("kotlinx/") ||
-        classNode.name.startsWith("androidx/compose/") ||
-        classNode.name.startsWith("sun/")
+        classNode.name.startsWith("androidx/")
     ) return null
     return RuntimeInfo(classNode.methods.mapNotNull { methodNode -> RuntimeScopeInfo(classNode, methodNode) })
 }
@@ -88,8 +90,8 @@ internal fun RuntimeScopeInfo(classNode: ClassNode, methodNode: MethodNode): Run
         context.pushFunctionKeyAnnotation(ComposeGroupKey(functionKey))
     }
 
-    methodNode.instructions.forEachIndexed { index, instructionNode ->
-        RuntimeInstructionAnalyzer.analyze(context, index, instructionNode)
+    methodNode.instructions.forEach { instructionNode ->
+        RuntimeInstructionAnalyzer.analyze(context, instructionNode)
     }
 
     return RuntimeScopeInfo(context.end() ?: return null)

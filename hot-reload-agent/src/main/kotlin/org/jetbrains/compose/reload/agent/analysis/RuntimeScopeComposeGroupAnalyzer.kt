@@ -15,8 +15,7 @@ private const val sourceInformationMarkerEndMethodName = "sourceInformationMarke
 
 internal object RuntimeScopeComposeGroupAnalyzer : RuntimeInstructionAnalyzer {
     override fun analyze(
-        context: RuntimeMethodAnalysisContext,
-        instructionIndex: Int, instructionNode: AbstractInsnNode
+        context: RuntimeMethodAnalysisContext, instructionNode: AbstractInsnNode
     ) {
         if (instructionNode !is MethodInsnNode) return
         if (instructionNode.owner != composerClazzId) return

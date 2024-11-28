@@ -244,6 +244,7 @@ class ScreenshotTests {
     @DefaultSettingsGradleKts
     @DefaultBuildGradleKts
     @TestOnlyLatestVersions
+    @TestOnlyKmp
     fun `test - update remembered value`(fixture: HotReloadTestFixture) = fixture.runTest {
         fixture initialSourceCode """
             import androidx.compose.foundation.layout.*
@@ -350,9 +351,10 @@ class ScreenshotTests {
     }
 
     @HotReloadTest
+    @TestOnlyKmp
+    @TestOnlyLatestVersions
     @DefaultSettingsGradleKts
     @DefaultBuildGradleKts
-    @TestOnlyLatestVersions
     fun `test - changing spacedBy`(fixture: HotReloadTestFixture) = fixture.runTest {
         fixture initialSourceCode """
             import androidx.compose.foundation.layout.Arrangement

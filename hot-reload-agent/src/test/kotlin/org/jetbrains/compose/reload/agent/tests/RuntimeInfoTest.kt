@@ -11,6 +11,8 @@ import org.jetbrains.kotlin.util.prefixIfNot
 import org.junit.jupiter.api.TestInfo
 import kotlin.io.path.*
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.fail
 
 @WithCompiler
@@ -90,9 +92,7 @@ class RuntimeInfoTest {
 
     @Test
     fun `test - canvas`(compiler: Compiler, testInfo: TestInfo) {
-        checkRuntimeInfo(
-            testInfo, compiler, mapOf(
-                "Foo.kt" to """
+        val code = """
                 import androidx.compose.foundation.Canvas
                 import androidx.compose.foundation.layout.Box
                 import androidx.compose.foundation.layout.fillMaxSize
@@ -119,8 +119,10 @@ class RuntimeInfoTest {
                     }
                 }
             """.trimIndent()
-            )
-        )
+
+        val info10f = checkRuntimeInfo(testInfo, compiler, mapOf("Foo.kt" to code), name = "10f")
+        val info11f = checkRuntimeInfo(testInfo, compiler, mapOf("Foo.kt" to code.replace("10f", "11f")), name = "11f")
+        assertNotEquals(info10f, info11f)
     }
 
 
@@ -180,11 +182,11 @@ class RuntimeInfoTest {
 
 private fun checkRuntimeInfo(
     testInfo: TestInfo, compiler: Compiler, code: Map<String, String>, name: String? = null
-) {
+): RuntimeInfo? {
     val output = compiler.compile(code)
     val runtimeInfo = output.values
         .map { bytecode -> RuntimeInfo(bytecode) }
-        .reduce { info, next -> RuntimeInfo(info.scopes + next.scopes) }
+        .reduce { info, next -> RuntimeInfo(info?.scopes.orEmpty() + next?.scopes.orEmpty()) }
 
     fun String.asFileName(): String = replace("""\\W+""", "_")
 
@@ -205,7 +207,7 @@ private fun checkRuntimeInfo(
         appendLine(" Runtime Info:")
         appendLine("*/")
         appendLine()
-        appendLine(runtimeInfo.render())
+        appendLine(runtimeInfo?.render())
     }.trim()
 
     val directory = Path("src/test/resources/runtimeInfo")
@@ -228,6 +230,8 @@ private fun checkRuntimeInfo(
         expectFile.resolveSibling(expectFile.nameWithoutExtension + "-actual.txt").writeText(actualContent)
         fail("Runtime Info '${expectFile.toUri()}' did not match")
     }
+
+    return runtimeInfo
 }
 
 private fun RuntimeInfo.render(): String = buildString {

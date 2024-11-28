@@ -1,15 +1,16 @@
 package org.jetbrains.compose.reload.agent.analysis
 
 import org.objectweb.asm.tree.*
-import kotlin.random.Random
 
 internal object RuntimeScopeHasher : RuntimeInstructionAnalyzer {
     override fun analyze(
-        context: RuntimeMethodAnalysisContext,
-        instructionIndex: Int, instructionNode: AbstractInsnNode
+        context: RuntimeMethodAnalysisContext, instructionNode: AbstractInsnNode
     ) {
         val scope = context.scope ?: return
-        scope.pushHash(instructionNode.opcode)
+
+        if (instructionNode.opcode > 0) {
+            scope.pushHash(instructionNode.opcode)
+        }
 
         when (instructionNode) {
             is MethodInsnNode -> {
@@ -45,10 +46,6 @@ internal object RuntimeScopeHasher : RuntimeInstructionAnalyzer {
 
             is VarInsnNode -> {
                 scope.pushHash(instructionNode.`var`)
-            }
-
-            is LabelNode -> {
-                scope.pushHash(instructionNode.label)
             }
         }
     }
