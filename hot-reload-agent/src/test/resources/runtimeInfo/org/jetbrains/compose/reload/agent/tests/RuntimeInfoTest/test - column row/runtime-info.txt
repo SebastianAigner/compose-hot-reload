@@ -1,0 +1,51 @@
+/*
+ Original Code:
+*/
+
+// Foo.kt
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.Composable
+import androidx.compose.material3.Text
+
+@Composable
+fun Foo() {
+    Column {
+        Text("First Text")
+        Text("Second Text")
+        Row {
+            Text("Row A")
+            Text("Row B")
+        }
+    }
+}
+
+/*
+ Runtime Info:
+*/
+
+FooKt {
+    Foo {
+        desc: (Landroidx/compose/runtime/Composer;I)V
+        key: -965539098
+        codeHash: 293090810
+        dependencies: [
+            MethodId(className=FooKt, methodName=Foo$lambda$2, methodDescriptor=(ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;)
+        ]
+    
+        RestartGroup {
+            key: -965539098
+            codeHash: 1560135992
+            dependencies: []
+        }
+    }
+    
+    Foo$lambda$2 {
+        desc: (ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;
+        key: null
+        codeHash: 2963414893
+        dependencies: [
+            MethodId(className=FooKt, methodName=Foo, methodDescriptor=(Landroidx/compose/runtime/Composer;I)V)
+        ]
+    }
+}

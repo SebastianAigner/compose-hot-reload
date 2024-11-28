@@ -1,0 +1,141 @@
+/*
+ Original Code:
+*/
+
+// Foo.kt
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+
+@Composable
+fun Foo() {
+    Card {
+        Text("First Text")
+        Text("Second Text")
+        Card {
+            Text("Inner A")
+            Text("Inner B")
+        }
+    }
+}
+
+/*
+ Runtime Info:
+*/
+
+FooKt {
+    Foo {
+        desc: (Landroidx/compose/runtime/Composer;I)V
+        key: -965539098
+        codeHash: 2234077052
+        dependencies: [
+            MethodId(className=FooKt, methodName=Foo$lambda$0, methodDescriptor=(ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;)
+        ]
+    
+        RestartGroup {
+            key: -965539098
+            codeHash: 3667967867
+            dependencies: []
+        }
+    }
+    
+    Foo$lambda$0 {
+        desc: (ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;
+        key: null
+        codeHash: 2963414893
+        dependencies: [
+            MethodId(className=FooKt, methodName=Foo, methodDescriptor=(Landroidx/compose/runtime/Composer;I)V)
+        ]
+    }
+}
+
+ComposableSingletons$FooKt$lambda$1969856002$1 {
+    <init> {
+        desc: ()V
+        key: null
+        codeHash: 3843986898
+        dependencies: []
+    }
+    
+    invoke {
+        desc: (Landroidx/compose/foundation/layout/ColumnScope;Landroidx/compose/runtime/Composer;I)V
+        key: 1969856002
+        codeHash: 3126595384
+        dependencies: []
+    }
+    
+    invoke {
+        desc: (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        key: null
+        codeHash: 226807190
+        dependencies: []
+    }
+    
+    <clinit> {
+        desc: ()V
+        key: null
+        codeHash: 1890018289
+        dependencies: []
+    }
+}
+
+ComposableSingletons$FooKt$lambda$904522804$1 {
+    <init> {
+        desc: ()V
+        key: null
+        codeHash: 3843986898
+        dependencies: []
+    }
+    
+    invoke {
+        desc: (Landroidx/compose/foundation/layout/ColumnScope;Landroidx/compose/runtime/Composer;I)V
+        key: 904522804
+        codeHash: 2036811351
+        dependencies: []
+    }
+    
+    invoke {
+        desc: (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        key: null
+        codeHash: 323136149
+        dependencies: []
+    }
+    
+    <clinit> {
+        desc: ()V
+        key: null
+        codeHash: 3216794440
+        dependencies: []
+    }
+}
+
+ComposableSingletons$FooKt {
+    <init> {
+        desc: ()V
+        key: null
+        codeHash: 3843986898
+        dependencies: []
+    }
+    
+    getLambda$1969856002$testModule {
+        desc: ()Lkotlin/jvm/functions/Function3;
+        key: null
+        codeHash: 4032606886
+        dependencies: []
+    }
+    
+    getLambda$904522804$testModule {
+        desc: ()Lkotlin/jvm/functions/Function3;
+        key: null
+        codeHash: 4032606886
+        dependencies: []
+    }
+    
+    <clinit> {
+        desc: ()V
+        key: null
+        codeHash: 1167130584
+        dependencies: []
+    }
+}

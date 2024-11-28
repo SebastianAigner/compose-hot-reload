@@ -1,5 +1,7 @@
 package org.jetbrains.compose.reload.agent
 
+import org.jetbrains.compose.reload.agent.analysis.ComposeGroupKey
+
 private val logger = createLogger()
 private const val RECOMPOSER_CLASS = "androidx.compose.runtime.Recomposer"
 private const val COMPANION_FIELD = "Companion"

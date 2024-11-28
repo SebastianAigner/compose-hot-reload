@@ -1,0 +1,127 @@
+/*
+ Original Code:
+*/
+
+// Foo.kt
+import androidx.compose.runtime.*
+
+@Composable
+fun Bar(child: @Composable () -> Unit) {
+    child()
+}
+
+@Composable 
+fun Foo() {
+    Bar {
+        print("foo")
+    }
+}
+
+/*
+ Runtime Info:
+*/
+
+FooKt {
+    Bar {
+        desc: (Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+        key: 490236094
+        codeHash: 1233338926
+        dependencies: [
+            MethodId(className=FooKt, methodName=Bar$lambda$0, methodDescriptor=(Lkotlin/jvm/functions/Function2;ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;)
+        ]
+    
+        RestartGroup {
+            key: 490236094
+            codeHash: 2767570610
+            dependencies: []
+        }
+    }
+    
+    Foo {
+        desc: (Landroidx/compose/runtime/Composer;I)V
+        key: -965539098
+        codeHash: 3473011263
+        dependencies: [
+            MethodId(className=FooKt, methodName=Foo$lambda$1, methodDescriptor=(ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;)
+        ]
+    
+        RestartGroup {
+            key: -965539098
+            codeHash: 3804920290
+            dependencies: [
+                MethodId(className=FooKt, methodName=Bar, methodDescriptor=(Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V)
+            ]
+        }
+    }
+    
+    Bar$lambda$0 {
+        desc: (Lkotlin/jvm/functions/Function2;ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;
+        key: null
+        codeHash: 1561598226
+        dependencies: [
+            MethodId(className=FooKt, methodName=Bar, methodDescriptor=(Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V)
+        ]
+    }
+    
+    Foo$lambda$1 {
+        desc: (ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;
+        key: null
+        codeHash: 2963414893
+        dependencies: [
+            MethodId(className=FooKt, methodName=Foo, methodDescriptor=(Landroidx/compose/runtime/Composer;I)V)
+        ]
+    }
+}
+
+ComposableSingletons$FooKt$lambda$-1435676418$1 {
+    <init> {
+        desc: ()V
+        key: null
+        codeHash: 3843986898
+        dependencies: []
+    }
+    
+    invoke {
+        desc: (Landroidx/compose/runtime/Composer;I)V
+        key: -1435676418
+        codeHash: 885414927
+        dependencies: []
+    }
+    
+    invoke {
+        desc: (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        key: null
+        codeHash: 1141020694
+        dependencies: []
+    }
+    
+    <clinit> {
+        desc: ()V
+        key: null
+        codeHash: 2256451641
+        dependencies: []
+    }
+}
+
+ComposableSingletons$FooKt {
+    <init> {
+        desc: ()V
+        key: null
+        codeHash: 3843986898
+        dependencies: []
+    }
+    
+    getLambda$-1435676418$testModule {
+        desc: ()Lkotlin/jvm/functions/Function2;
+        key: null
+        codeHash: 4032606886
+        dependencies: []
+    }
+    
+    <clinit> {
+        desc: ()V
+        key: null
+        codeHash: 3466347390
+        dependencies: []
+    }
+}

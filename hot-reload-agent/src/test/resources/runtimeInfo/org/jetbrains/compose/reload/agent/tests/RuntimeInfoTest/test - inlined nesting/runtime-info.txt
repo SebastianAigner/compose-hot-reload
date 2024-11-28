@@ -1,0 +1,63 @@
+/*
+ Original Code:
+*/
+
+// Foo.kt
+import androidx.compose.runtime.*
+import androidx.compose.material3.Text
+
+@Composable
+inline fun Bar(child: @Composable () -> Unit) {
+    print("Bar")
+    child()
+}
+
+@Composable 
+fun Foo() {
+    Bar {
+        Bar {
+            Text("First Text")
+        }
+    }
+    
+    Bar {
+        Text("Second Text")
+    }
+}
+
+/*
+ Runtime Info:
+*/
+
+FooKt {
+    Bar {
+        desc: (Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+        key: 490236094
+        codeHash: 4173453009
+        dependencies: []
+    }
+    
+    Foo {
+        desc: (Landroidx/compose/runtime/Composer;I)V
+        key: -965539098
+        codeHash: 1532004537
+        dependencies: [
+            MethodId(className=FooKt, methodName=Foo$lambda$3, methodDescriptor=(ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;)
+        ]
+    
+        RestartGroup {
+            key: -965539098
+            codeHash: 2273265981
+            dependencies: []
+        }
+    }
+    
+    Foo$lambda$3 {
+        desc: (ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit;
+        key: null
+        codeHash: 2963414893
+        dependencies: [
+            MethodId(className=FooKt, methodName=Foo, methodDescriptor=(Landroidx/compose/runtime/Composer;I)V)
+        ]
+    }
+}

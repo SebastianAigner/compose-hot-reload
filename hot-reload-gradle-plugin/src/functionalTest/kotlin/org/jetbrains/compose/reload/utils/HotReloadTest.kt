@@ -189,16 +189,13 @@ private class HotReloadTestFixtureExtension(
             .withProjectDir(projectDir.path.toFile())
             .withGradleVersion(context.gradleVersion.version.version)
             .forwardOutput()
-            .withDebug(debug)
             .addedArguments("-P$ORCHESTRATION_SERVER_PORT_PROPERTY_KEY=${orchestrationServer.port}")
             .addedArguments("-D$ORCHESTRATION_SERVER_PORT_PROPERTY_KEY=${orchestrationServer.port}")
             .addedArguments("-Pcompose.reload.headless=true")
             .addedArguments("-i")
             .addedArguments("-s")
 
-        if (!debug) { // We saw issues with cc and debug mode
-            gradleRunner.addedArguments("--configuration-cache")
-        }
+        gradleRunner.addedArguments("--configuration-cache")
 
         return HotReloadTestFixture(
             testClassName = testClass.get().name,
@@ -207,6 +204,7 @@ private class HotReloadTestFixtureExtension(
             gradleRunner = gradleRunner,
             orchestration = orchestrationServer,
             projectMode = context.projectMode,
+            isDebug = debug
         )
     }
 }

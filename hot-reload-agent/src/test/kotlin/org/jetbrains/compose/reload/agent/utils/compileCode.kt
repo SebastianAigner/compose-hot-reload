@@ -76,7 +76,8 @@ private class CompilerImpl(
 
         arguments.pluginOptions = arrayOf(
             "plugin:androidx.compose.compiler.plugins.kotlin:featureFlag=OptimizeNonSkippingGroups",
-            "plugin:androidx.compose.compiler.plugins.kotlin:generateFunctionKeyMetaClasses=true")
+            "plugin:androidx.compose.compiler.plugins.kotlin:generateFunctionKeyMetaAnnotations=true"
+        )
 
         arguments.freeArgs = code.keys.map { path -> workingDir.resolve(path).absolutePathString() }
 

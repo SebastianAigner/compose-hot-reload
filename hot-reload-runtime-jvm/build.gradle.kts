@@ -27,6 +27,7 @@ dependencies {
 
     devImplementation(deps.javassist)
     devImplementation(deps.asm)
+    devImplementation(deps.asm.tree)
     devImplementation(deps.slf4j.api)
     devImplementation(compose.desktop.common)
     devImplementation(compose.material3)

@@ -8,3 +8,6 @@ val Project.isDebugMode: Provider<Boolean>
 
 val Project.isHeadless: Provider<Boolean>
     get() = providers.gradleProperty("compose.reload.headless").map { raw -> raw.toBoolean() }
+
+val Project.isIdeaSync: Provider<Boolean>
+    get() = providers.systemProperty("idea.sync.active").map { raw -> raw.toBoolean() }

@@ -2,7 +2,10 @@ package org.jetbrains.compose.reload
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 @Suppress("unused")
 class ComposeHotReloadPlugin : Plugin<Project> {
@@ -33,4 +36,12 @@ private fun Project.onKotlinPluginApplied() {
     setupComposeHotReloadExecTasks()
     setupComposeHotRunConventions()
     setupComposeDevCompilation()
+
+    tasks.withType<KotlinJvmCompile>().configureEach { task ->
+        if (isIdeaSync.orNull == true) return@configureEach
+
+        task.compilerOptions.freeCompilerArgs.addAll(
+            "-P", "plugin:androidx.compose.compiler.plugins.kotlin:generateFunctionKeyMetaAnnotations=true"
+        )
+    }
 }

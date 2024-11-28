@@ -31,7 +31,7 @@ fun javap(bytecode: ByteArray): String {
 
     javap.run(PrintWriter(out), PrintWriter(err), "-v", "-p", targetFile.absolutePathString())
 
-    return out.toString()
+    return out.toString() + err.toString()
 }
 
 @Suppress("unused") // Debugging utility!

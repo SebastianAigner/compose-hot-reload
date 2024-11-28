@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.BeforeTestExecutionCallback
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.platform.commons.support.AnnotationSupport
+import kotlin.io.path.appendText
 import kotlin.io.path.createDirectories
 import kotlin.io.path.writeText
 
@@ -31,6 +32,26 @@ private class DefaultBuildGradleKtsExtension() : BeforeTestExecutionCallback {
                 ProjectMode.Kmp -> projectDir.setupKmpProject()
                 ProjectMode.Jvm -> projectDir.setupJvmProject()
                 null -> return
+            }
+        }
+
+        if (testFixture.isDebug) {
+            projectDirs.forEach { projectDir ->
+                projectDir.buildGradleKts.appendText(
+                    """
+                    
+                    tasks.withType<JavaExec>().configureEach { 
+                        debug = true
+                        debugOptions { 
+                            enabled = true
+                            server = false
+                            suspend = true
+                            port = 5007
+                        }
+                    }
+                    
+                """.trimIndent()
+                )
             }
         }
     }
