@@ -2,12 +2,12 @@
 
 [![JetBrains team project](https://jb.gg/badges/incubator.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
+Iterate on your compose UIs faster, and let your creativity run free when building multiplatform user interfaces.
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./readme-assets/banner_dark.png">
   <img alt="Text changing depending on mode. Light: 'So light!' Dark: 'So dark!'" src="./readme-assets/banner_light.png">
 </picture>
-
-Iterate on your compose UIs faster, and let your creativity run free when building multiplatform user interfaces.
 
 **Compose Hot Reload is currently experimental.** No guarantees apply.
 
