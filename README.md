@@ -129,7 +129,7 @@ tasks.register<ComposeHotRun>("runHot") {
 
 ### My multiplatform project doesn't have a Desktop target. Can I use Compose Hot Reload?
 
-**Yes,** but you will have to add a module to your project that does configure a desktop target. It's worth noting that you will only be able to hot-reload code that can be run on the desktop JVM target. A possible setup might be the following:
+To use Compose Hot Reload, you'll have to add a module to your project that does configure a desktop target. It's worth noting that you will only be able to hot-reload code that can be run on the desktop JVM target. A possible setup might be the following:
 - A `ui-components` module that specifies platform-agnostic UI components.
 - A `gallery` module with a configured desktop target and Compose Hot Reload.
 
