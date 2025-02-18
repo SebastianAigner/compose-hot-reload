@@ -9,16 +9,14 @@ Iterate on your compose UIs faster, and let your creativity run free when buildi
   <img alt="Text changing depending on mode. Light: 'So light!' Dark: 'So dark!'" src="./readme-assets/banner_light.png">
 </picture>
 
-With Compose Hot Reload, you can make changes to your UI code in a Compose Multiplatform application, and see the results in real time, without having to restart your application.
-
-Compose Hot Reload works by running your application on a special desktop JVM (the JetBrains Runtime), and intelligently reloads your code whenever it is changed.  
+Make changes to your UI code in a Compose Multiplatform application, and see the results in real time. No restarts required. Compose Hot Reload runs your application on a special desktop JVM, and intelligently reloads your code whenever it is changed.  
 
 **This project is currently experimental.** No guarantees apply.
 
 ## Getting Started
 
 ### Requirements
-- A Kotlin Multiplatform project with a desktop target (see [FAQ](#faq))
+- A Compose Multiplatform project with a desktop target (see [FAQ](#faq))
 - Kotlin `2.1.20-Beta2` or higher 
 
 ### Add repository
@@ -129,8 +127,16 @@ tasks.register<ComposeHotRun>("runHot") {
 
 ### My multiplatform project doesn't have a Desktop target. Can I use Compose Hot Reload?
 
+**Yes,** but you will have to add a module to your project that does configure a desktop target. It's worth noting that you will only be able to hot-reload code that can be run on the desktop JVM target. A possible setup might be the following:
+- A `ui-components` module that specifies platform-agnostic UI components.
+- A `gallery` module with a configured desktop target and Compose Hot Reload.
+
 ### I am developing an Android application and am not using Kotlin Multiplatform. Can I use Compose Hot Reload?
 
+Compose Hot Reload is designed to work with Compose Multiplatform. If you'd like to use Compose Hot Reload with an Android-only project, you will have to:
+
+- Switch from the Jetpack Compose plugin to the Compose Multiplatform plugin.
+- Add a separate Gradle module and configure the `desktop` target according to the instructions above.
 
 ### My project is a desktop-only app with Compose Multiplatform. Can I use Compose Hot Reload?
 
