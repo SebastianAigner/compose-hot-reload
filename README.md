@@ -86,6 +86,8 @@ The Compose Hot Reload Gradle plugin will then use this resolver to automaticall
 In the `desktop` source set of your project, add the following code to a file of your choice, e.g. `DevMain.kt`
 
 ```kotlin
+package my.app
+
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
@@ -119,7 +121,7 @@ In a regular Kotlin Multiplatform project, you can start your main function by p
 ```kotlin
 // build.gradle.kts
 tasks.register<ComposeHotRun>("runHot") {
-    mainClass.set("my.app.MainKt")
+    mainClass.set("my.app.DevMainKt")
 }
 ```
 
